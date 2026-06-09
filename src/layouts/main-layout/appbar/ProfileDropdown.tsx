@@ -11,13 +11,16 @@ import {
 } from '@mui/material';
 import ProfileImage from 'assets/avatar.jpg';
 import IconifyIcon from 'components/base/IconifyIcon';
+import { useAuth } from 'providers/AuthProvider';
 import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
+import paths from 'routes/path';
 
 /* ------------------------Profile dropdown Data --------------------------- */
 const profileData = [
   {
-    href: '#!',
+    href: paths.profile,
     title: 'My Profile',
     subtitle: 'Account Settings',
     icon: 'fa:user-circle-o',
@@ -27,6 +30,8 @@ const profileData = [
 /* -------------------------------------------------------------------------- */
 const ProfileDropdown = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
 
   const handleOpenDropdown = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +39,13 @@ const ProfileDropdown = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = async () => {
+    await logout();
+    handleClose();
+    navigate(paths.login, { replace: true });
+  };
+
   return (
     <Fragment>
       <IconButton sx={{ p: 0, position: 'relative' }} onClick={handleOpenDropdown}>
@@ -66,7 +78,7 @@ const ProfileDropdown = () => {
         sx={{
           '& .MuiMenu-paper': {
             width: 280,
-            bgcolor: 'common.white',
+            bgcolor: 'background.default',
           },
         }}
       >
@@ -78,10 +90,10 @@ const ProfileDropdown = () => {
             <Avatar src={ProfileImage} alt="Profile Image" sx={{ width: 65, height: 65 }} />
             <Box>
               <Typography variant="subtitle2" color="text.primary" fontWeight={600}>
-                Charlene Reed
+                {user?.name || 'Charlene Reed'}
               </Typography>
               <Typography variant="caption" color="textSecondary">
-                Designer
+                {user?.title || 'Designer'}
               </Typography>
               <Typography
                 variant="subtitle2"
@@ -91,7 +103,7 @@ const ProfileDropdown = () => {
                 gap={0.5}
               >
                 <IconifyIcon icon="majesticons:mail-line" />
-                info@dashbank.com
+                {user?.email || 'info@dashbank.com'}
               </Typography>
             </Box>
           </Stack>
@@ -148,7 +160,7 @@ const ProfileDropdown = () => {
             </Box>
           ))}
           <Box mt={1.25}>
-            <Button onClick={handleClose} variant="outlined" color="error" fullWidth>
+            <Button onClick={handleLogout} variant="outlined" color="error" fullWidth>
               Logout
             </Button>
           </Box>

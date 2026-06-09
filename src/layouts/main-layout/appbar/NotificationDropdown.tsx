@@ -87,7 +87,13 @@ const NotificationDropdown = ({ open, onClose }: NotificationDropdownProps) => {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         slotProps={{
           paper: {
-            sx: { mt: 1.5, ml: 0.75, width: 300, bgcolor: 'common.white', borderRadius: '3%' },
+            sx: {
+              mt: 1.5,
+              ml: 0.75,
+              width: 300,
+              bgcolor: 'background.default',
+              borderRadius: '3%',
+            },
           },
         }}
       >

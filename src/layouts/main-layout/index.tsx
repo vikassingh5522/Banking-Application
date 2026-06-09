@@ -52,7 +52,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
           <MainNavbar onDrawerToggle={handleDrawerToggle} />
           <Stack
             sx={{
-              backgroundColor: { xs: 'common.white', md: 'background.paper' },
+              backgroundColor: { xs: 'background.default', md: 'background.paper' },
               px: { xs: 2, sm: 3, md: 3.5 },
               flex: 1,
               gap: 1,

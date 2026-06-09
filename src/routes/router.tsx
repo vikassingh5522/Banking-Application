@@ -1,22 +1,31 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import paths, { rootPaths } from './path';
+import PublicOnly from './PublicOnly';
+import RequireAuth from './RequireAuth';
 
 /* ---------------- Lazy loads various components ------------------------- */
 const App = lazy(() => import('App'));
-const MainLayout = lazy(() => import('layouts/main-layout'));
-const AuthLayout = lazy(() => import('layouts/auth-layout'));
-const Dashboard = lazy(() => import('pages/dashboard'));
-const BusinessModulePage = lazy(() => import('pages/business-module'));
+const PublicLayout = lazy(() => import('layouts/public-layout/index'));
+const MainLayout = lazy(() => import('layouts/main-layout/index'));
+const AuthLayout = lazy(() => import('layouts/auth-layout/index'));
+const LandingPage = lazy(() => import('pages/public/landing/index'));
+const HomePage = lazy(() => import('pages/public/home/index'));
+const AboutPage = lazy(() => import('pages/public/about/index'));
+const ContactPage = lazy(() => import('pages/public/contact/index'));
+const Dashboard = lazy(() => import('pages/dashboard/index'));
+const BusinessModulePage = lazy(() => import('pages/business-module/index'));
+const AiAssistantPage = lazy(() => import('pages/ai-assistant/index'));
+const ProfilePage = lazy(() => import('pages/profile/index'));
 const Spinner = lazy(() => import('components/loading/Splash'));
 const LoadingProgress = lazy(() => import('components/loading/LoadingProgress'));
 
-const LoginPage = lazy(() => import('pages/authentication/login'));
-const SignUpPage = lazy(() => import('pages/authentication/signup'));
-const ForgetPasswordPage = lazy(() => import('pages/authentication/forget-password'));
-const ResetPasswordPage = lazy(() => import('pages/authentication/reset-password'));
+const LoginPage = lazy(() => import('pages/authentication/login/index'));
+const SignUpPage = lazy(() => import('pages/authentication/signup/index'));
+const ForgetPasswordPage = lazy(() => import('pages/authentication/forget-password/index'));
+const ResetPasswordPage = lazy(() => import('pages/authentication/reset-password/index'));
 
-const NotFoundPage = lazy(() => import('pages/not-found'));
+const NotFoundPage = lazy(() => import('pages/not-found/index'));
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -32,18 +41,37 @@ export const routes = [
     children: [
       {
         path: paths.default,
-        element: (
-          <MainLayout>
-            <Suspense fallback={<LoadingProgress />}>
-              <Outlet />
-            </Suspense>
-          </MainLayout>
-        ),
+        element: <PublicLayout />,
         children: [
           {
             index: true,
-            element: <Navigate to={paths.dashboard} replace />,
+            element: <LandingPage />,
           },
+          {
+            path: paths.home,
+            element: <HomePage />,
+          },
+          {
+            path: paths.about,
+            element: <AboutPage />,
+          },
+          {
+            path: paths.contact,
+            element: <ContactPage />,
+          },
+        ],
+      },
+      {
+        element: (
+          <RequireAuth>
+            <MainLayout>
+              <Suspense fallback={<LoadingProgress />}>
+                <Outlet />
+              </Suspense>
+            </MainLayout>
+          </RequireAuth>
+        ),
+        children: [
           {
             path: paths.dashboard,
             element: <Dashboard />,
@@ -85,6 +113,10 @@ export const routes = [
             element: <BusinessModulePage />,
           },
           {
+            path: paths.profile,
+            element: <ProfilePage />,
+          },
+          {
             path: paths.insurance,
             element: <BusinessModulePage />,
           },
@@ -106,13 +138,17 @@ export const routes = [
           },
           {
             path: paths.aiAssistant,
-            element: <BusinessModulePage />,
+            element: <AiAssistantPage />,
           },
         ],
       },
       {
         path: rootPaths.authRoot,
-        element: <AuthLayout />,
+        element: (
+          <PublicOnly>
+            <AuthLayout />
+          </PublicOnly>
+        ),
         children: [
           {
             path: paths.login,

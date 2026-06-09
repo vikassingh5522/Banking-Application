@@ -26,7 +26,7 @@ import TabsComponent from 'theme/components/Tabs';
 import ToolbarComponent from 'theme/components/Toolbar';
 import TouchRippleComponent from 'theme/components/TouchRipple';
 // import type {} from '@mui/x-data-grid/themeAugmentation';
-import palette from 'theme/palette';
+import { AppThemeMode, createPalette } from 'theme/palette';
 import shadows from 'theme/shadows';
 import typography from 'theme/typography';
 
@@ -40,46 +40,49 @@ declare module '@mui/material/styles' {
     xxl: true;
   }
 }
-export const theme = createTheme({
-  palette,
-  typography,
-  shadows: [...shadows] as Shadows,
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-      xxl: 1920,
+export const createAppTheme = (mode: AppThemeMode = 'light') =>
+  createTheme({
+    palette: createPalette(mode),
+    typography,
+    shadows: [...shadows] as Shadows,
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        xxl: 1920,
+      },
     },
-  },
-  components: {
-    MuiAppBar: AppBarComponent,
-    MuiAvatar: AvatarComponent,
-    MuiButton: ButtonComponent,
-    MuiButtonBase: ButtonBaseComponent,
-    MuiCard: CardComponent,
-    MuiCardContent: CardContentComponent,
-    MuiCssBaseline: CssBaselineComponent,
-    MuiDataGrid: DataGridComponent,
-    MuiDrawer: DrawerComponent,
-    MuiFilledInput: FilledInputComponent,
-    MuiIconButton: IconButtonComponent,
-    MuiInput: InputComponent,
-    MuiInputBase: InputBaseComponent,
-    MuiInputLabel: InputLabelComponent,
-    MuiInputAdornment: InputAdornmentComponent,
-    MuiLink: LinkComponent,
-    MuiListItem: ListItemComponent,
-    MuiListItemText: ListItemTextComponent,
-    MuiMenu: MenuComponent,
-    MuiOutlinedInput: OutlinedInputComponent,
-    MuiPagination: PaginationComponent,
-    MuiPaginationItem: PaginationItemComponent,
-    MuiTab: TabComponent,
-    MuiTabs: TabsComponent,
-    MuiToolbar: ToolbarComponent,
-    MuiTouchRipple: TouchRippleComponent,
-  },
-});
+    components: {
+      MuiAppBar: AppBarComponent,
+      MuiAvatar: AvatarComponent,
+      MuiButton: ButtonComponent,
+      MuiButtonBase: ButtonBaseComponent,
+      MuiCard: CardComponent,
+      MuiCardContent: CardContentComponent,
+      MuiCssBaseline: CssBaselineComponent,
+      MuiDataGrid: DataGridComponent,
+      MuiDrawer: DrawerComponent,
+      MuiFilledInput: FilledInputComponent,
+      MuiIconButton: IconButtonComponent,
+      MuiInput: InputComponent,
+      MuiInputBase: InputBaseComponent,
+      MuiInputLabel: InputLabelComponent,
+      MuiInputAdornment: InputAdornmentComponent,
+      MuiLink: LinkComponent,
+      MuiListItem: ListItemComponent,
+      MuiListItemText: ListItemTextComponent,
+      MuiMenu: MenuComponent,
+      MuiOutlinedInput: OutlinedInputComponent,
+      MuiPagination: PaginationComponent,
+      MuiPaginationItem: PaginationItemComponent,
+      MuiTab: TabComponent,
+      MuiTabs: TabsComponent,
+      MuiToolbar: ToolbarComponent,
+      MuiTouchRipple: TouchRippleComponent,
+    },
+  });
+
+export const theme = createAppTheme('light');

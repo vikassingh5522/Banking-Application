@@ -73,7 +73,7 @@ const QuickTransfer = () => {
             className="arrow-left"
             sx={(theme) => ({
               zIndex: 1,
-              bgcolor: 'common.white',
+              bgcolor: 'background.default',
               boxShadow: theme.shadows[2],
               mr: 1.15,
               ml: 1,

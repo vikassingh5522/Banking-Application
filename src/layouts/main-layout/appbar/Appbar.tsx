@@ -1,7 +1,10 @@
-import { AppBar, Avatar, Badge, Box, IconButton, Link, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Box, IconButton, Link, Stack, Toolbar, Typography } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
 import Image from 'components/base/Image';
+import ProfileDropdown from 'layouts/main-layout/appbar/ProfileDropdown';
 import SearchInput from 'layouts/main-layout/appbar/SearchInput';
+import SettingsDropdown from 'layouts/main-layout/appbar/SettingsDropdown';
+import { useAuth } from 'providers/AuthProvider';
 import { Link as RouterLink } from 'react-router-dom';
 
 interface NavbarProps {
@@ -9,8 +12,17 @@ interface NavbarProps {
 }
 
 const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
+  const { user } = useAuth();
+  const companyName = user?.companyName || 'Sunrise Traders Pvt. Ltd.';
+  const businessLabel = [user?.businessType || 'SME', user?.gstin ? `GSTIN ${user.gstin}` : '']
+    .filter(Boolean)
+    .join(' - ');
+
   return (
-    <AppBar position="sticky" sx={{ bgcolor: 'common.white', borderBottom: '1px solid', borderColor: 'divider' }}>
+    <AppBar
+      position="sticky"
+      sx={{ bgcolor: 'background.default', borderBottom: '1px solid', borderColor: 'divider' }}
+    >
       <Toolbar
         sx={{
           justifyContent: 'space-between',
@@ -19,7 +31,11 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
           py: { xs: 1, md: 0 },
         }}
       >
-        <Stack direction="row" gap={1} sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
+        <Stack
+          direction="row"
+          gap={1}
+          sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}
+        >
           <Link component={RouterLink} to="/dashboard" sx={{ display: 'flex', p: 0.5 }}>
             <Image src="/bankdash/bankdash.svg" alt="Logo" sx={{ width: 25 }} />
           </Link>
@@ -33,6 +49,7 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
         </Box>
 
         <Stack direction="row" sx={{ alignItems: 'center', gap: { xs: 1.25, md: 2.25 } }}>
+          <SettingsDropdown />
           <IconButton sx={{ bgcolor: 'background.paper' }}>
             <Badge badgeContent={12} color="error">
               <IconifyIcon icon="lucide:messages-square" color="primary.darker" width={20} />
@@ -43,20 +60,15 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
               <IconifyIcon icon="lucide:bell" color="primary.darker" width={20} />
             </Badge>
           </IconButton>
-          <IconButton sx={{ bgcolor: 'background.paper', display: { xs: 'none', sm: 'inline-flex' } }}>
-            <IconifyIcon icon="lucide:circle-help" color="primary.darker" width={20} />
-          </IconButton>
           <Box sx={{ textAlign: 'right', display: { xs: 'none', lg: 'block' } }}>
             <Typography color="primary.darker" fontWeight={700} fontSize={14}>
-              Sunrise Traders Pvt. Ltd.
+              {companyName}
             </Typography>
             <Typography color="primary.light" fontSize={11}>
-              SME - GSTIN 27AABCS1234D1Z6
+              {businessLabel}
             </Typography>
           </Box>
-          <Avatar sx={{ width: 34, height: 34, bgcolor: 'primary.main', fontSize: 13, fontWeight: 700 }}>
-            ST
-          </Avatar>
+          <ProfileDropdown />
         </Stack>
       </Toolbar>
       <Box sx={{ display: { xs: 'block', md: 'none' }, px: 3.15, pb: 1.5 }}>

@@ -9,6 +9,8 @@ const CssBaselineComponent: Components<Omit<Theme, 'components'>>['MuiCssBaselin
   styleOverrides: (theme) => ({
     body: {
       fontVariantLigatures: 'none',
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.primary,
       ...scrollbar(theme),
     },
     'input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button':

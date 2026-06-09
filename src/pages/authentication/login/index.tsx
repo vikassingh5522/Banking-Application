@@ -1,6 +1,8 @@
 import { Box, Button, Card, Container, Divider, Link, Stack, Typography } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
 import LoginForm from 'components/sections/authentication/LoginForm';
+import { Link as RouterLink } from 'react-router-dom';
+import paths from 'routes/path';
 
 const LoginPage = () => {
   return (
@@ -29,11 +31,23 @@ const LoginPage = () => {
                 fontSize: { xs: 'subtitle1.fontSize', sm: 'body2.fontSize' },
               }}
             >
-              Don’t have an account?
+              Don't have an account?
               <Link
-                href="/authentication/sign-up"
+                component={RouterLink}
+                to={paths.signup}
                 variant="subtitle2"
-                sx={{ ml: 0.75, '&:hover': { color: 'primary.light' } }}
+                sx={{
+                  ml: 0.75,
+                  color: 'primary.main',
+                  fontWeight: 700,
+                  '&:hover': { color: 'primary.dark', textDecoration: 'underline' },
+                  '&:focus-visible': {
+                    outline: '2px solid',
+                    outlineColor: 'primary.main',
+                    outlineOffset: 3,
+                    borderRadius: 0.5,
+                  },
+                }}
               >
                 Create One Now!
               </Link>

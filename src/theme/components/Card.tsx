@@ -5,7 +5,7 @@ const CardComponent: Components<Omit<Theme, 'components'>>['MuiCard'] = {
   defaultProps: {},
   styleOverrides: {
     root: ({ theme }) => ({
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.background.default,
       backgroundClip: 'border-box',
       borderRadius: theme.shape.borderRadius * 6.25,
       boxShadow: theme.shadows[0],

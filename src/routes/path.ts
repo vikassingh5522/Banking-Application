@@ -10,6 +10,9 @@ export const rootPaths = {
  */
 const paths = {
   default: `${rootPaths.root}`,
+  home: `${rootPaths.pagesRoot}home`,
+  about: `${rootPaths.pagesRoot}about`,
+  contact: `${rootPaths.pagesRoot}contact`,
   dashboard: `${rootPaths.pagesRoot}dashboard`,
   transactions: `${rootPaths.pagesRoot}transactions`,
   creditCards: `${rootPaths.pagesRoot}credit-cards`,
@@ -24,6 +27,7 @@ const paths = {
   lending: `${rootPaths.pagesRoot}lending`,
   tradeSupplyChain: `${rootPaths.pagesRoot}trade-supply-chain`,
   payroll: `${rootPaths.pagesRoot}payroll`,
+  profile: `${rootPaths.pagesRoot}profile`,
   insurance: `${rootPaths.pagesRoot}insurance`,
   marketplace: `${rootPaths.pagesRoot}marketplace`,
   reports: `${rootPaths.pagesRoot}reports`,

@@ -1,6 +1,8 @@
 import { Box, Button, Card, Container, Divider, Link, Stack, Typography } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
 import SignupForm from 'components/sections/authentication/SignupForm';
+import { Link as RouterLink } from 'react-router-dom';
+import paths from 'routes/path';
 
 const SignupPage = () => {
   return (
@@ -30,9 +32,21 @@ const SignupPage = () => {
             >
               Already have an account?
               <Link
-                href="/authentication/login"
+                component={RouterLink}
+                to={paths.login}
                 variant="subtitle2"
-                sx={{ ml: 0.75, '&:hover': { color: 'primary.light' } }}
+                sx={{
+                  ml: 0.75,
+                  color: 'primary.main',
+                  fontWeight: 700,
+                  '&:hover': { color: 'primary.dark', textDecoration: 'underline' },
+                  '&:focus-visible': {
+                    outline: '2px solid',
+                    outlineColor: 'primary.main',
+                    outlineOffset: 3,
+                    borderRadius: 0.5,
+                  },
+                }}
               >
                 Sign In Now!
               </Link>

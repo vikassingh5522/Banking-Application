@@ -1,9 +1,13 @@
 import { IconButton } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
+import { useNavigate } from 'react-router-dom';
+import paths from 'routes/path';
 
 const SettingsDropdown = () => {
+  const navigate = useNavigate();
+
   return (
-    <IconButton sx={{ bgcolor: 'background.paper' }}>
+    <IconButton sx={{ bgcolor: 'background.paper' }} onClick={() => navigate(paths.settings)}>
       <IconifyIcon
         icon="lucide:settings"
         color="text.secondary"
