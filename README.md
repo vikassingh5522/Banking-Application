@@ -94,6 +94,7 @@ Use those credentials after replacing the password in your local `.env`.
 | `DB_SSL`                        | Set to `true` for Supabase. Set to `false` only for local Postgres without SSL. |
 | `DB_CONNECTION_LIMIT`           | Postgres pool connection limit.                                                 |
 | `JWT_SECRET`                    | Secret used to sign auth cookies. Required.                                     |
+| `AUTH_SESSION_DAYS`             | Number of days auth sessions stay active. Defaults to `20`.                    |
 | `CORS_ORIGIN`                   | Allowed frontend origin for API requests.                                       |
 | `AUTH_SEED_NAME`                | Optional default user name.                                                     |
 | `AUTH_SEED_EMAIL`               | Optional default user email.                                                    |

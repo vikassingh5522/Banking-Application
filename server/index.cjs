@@ -15,12 +15,18 @@ const port = Number(process.env.API_PORT || 5000);
 const isProduction = process.env.NODE_ENV === 'production';
 const jwtSecret = process.env.JWT_SECRET;
 const cookieName = 'bankdash_token';
+const authSessionDays = Number(process.env.AUTH_SESSION_DAYS || 20);
+const authSessionMaxAge = authSessionDays * 24 * 60 * 60 * 1000;
 const databaseUrl = process.env.DATABASE_URL;
 const mistralApiKey = process.env.MISTRAL_API_KEY;
 const mistralModel = process.env.MISTRAL_MODEL || 'mistral-small-latest';
 
 if (!jwtSecret) {
   throw new Error('JWT_SECRET is required. Add it to your .env file.');
+}
+
+if (!Number.isFinite(authSessionDays) || authSessionDays <= 0) {
+  throw new Error('AUTH_SESSION_DAYS must be a positive number.');
 }
 
 if (!databaseUrl) {
@@ -337,13 +343,13 @@ function publicUser(user) {
 }
 
 function setAuthCookie(res, user) {
-  const token = jwt.sign({ sub: user.id }, jwtSecret, { expiresIn: '8h' });
+  const token = jwt.sign({ sub: user.id }, jwtSecret, { expiresIn: `${authSessionDays}d` });
 
   res.cookie(cookieName, token, {
     httpOnly: true,
     secure: isProduction,
     sameSite: 'lax',
-    maxAge: 8 * 60 * 60 * 1000,
+    maxAge: authSessionMaxAge,
   });
 }
 
