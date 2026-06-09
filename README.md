@@ -2,7 +2,7 @@
 
 BankDash is a React and Material UI banking dashboard built with Vite. This version includes protected dashboard routes, authentication screens, theme switching, business module pages, profile/settings pages, and an Express + Supabase Postgres authentication API.
 
-
+   
 
 ## Tech Stack
 

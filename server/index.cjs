@@ -788,13 +788,22 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ message: 'Server error.' });
 });
 
-initializeDatabase()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`BankDash API running on http://localhost:${port}`);
+const ready = initializeDatabase();
+
+if (require.main === module) {
+  ready
+    .then(() => {
+      app.listen(port, () => {
+        console.log(`BankDash API running on http://localhost:${port}`);
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to initialize Supabase Postgres connection.', error);
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error('Failed to initialize Supabase Postgres connection.', error);
-    process.exit(1);
-  });
+}
+
+module.exports = {
+  app,
+  ready,
+};
