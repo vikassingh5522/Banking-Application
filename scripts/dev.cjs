@@ -4,7 +4,7 @@ const process = require('node:process');
 const isWindows = process.platform === 'win32';
 const children = [];
 
-function run(name, command, args) {
+function run(name, command, args, options = {}) {
   const child = spawn(command, args, {
     cwd: process.cwd(),
     env: process.env,
@@ -29,7 +29,10 @@ function run(name, command, args) {
 
     if (code && code !== 0) {
       console.error(`[${name}] exited with code ${code}`);
-      shutdown(code);
+
+      if (options.critical !== false) {
+        shutdown(code);
+      }
     }
   });
 }
@@ -47,5 +50,5 @@ function shutdown(code = 0) {
 process.on('SIGINT', () => shutdown(0));
 process.on('SIGTERM', () => shutdown(0));
 
-run('api', 'node', ['server/index.cjs']);
+run('api', 'node', ['server/index.cjs'], { critical: false });
 run('vite', 'vite', ['--host', '0.0.0.0', '--port', '3000']);

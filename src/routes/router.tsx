@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import paths, { rootPaths } from './path';
 import PublicOnly from './PublicOnly';
 import RequireAuth from './RequireAuth';
+import RouteErrorFallback from './RouteErrorFallback';
 
 /* ---------------- Lazy loads various components ------------------------- */
 const App = lazy(() => import('App'));
@@ -33,6 +34,7 @@ const NotFoundPage = lazy(() => import('pages/not-found/index'));
  */
 export const routes = [
   {
+    errorElement: <RouteErrorFallback />,
     element: (
       <Suspense fallback={<Spinner />}>
         <App />

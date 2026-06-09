@@ -60,13 +60,7 @@ const userSelect = `
   id,
   name,
   email,
-  role,
-  title,
   company_name AS "companyName",
-  business_type AS "businessType",
-  phone,
-  gstin,
-  avatar_url AS "avatarUrl",
   created_at AS "createdAt",
   updated_at AS "updatedAt"
 `;
@@ -338,18 +332,12 @@ function publicUser(user) {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.role,
-    title: user.title,
     companyName: user.companyName,
-    businessType: user.businessType,
-    phone: user.phone,
-    gstin: user.gstin,
-    avatarUrl: user.avatarUrl,
   };
 }
 
 function setAuthCookie(res, user) {
-  const token = jwt.sign({ sub: user.id, role: user.role }, jwtSecret, { expiresIn: '8h' });
+  const token = jwt.sign({ sub: user.id }, jwtSecret, { expiresIn: '8h' });
 
   res.cookie(cookieName, token, {
     httpOnly: true,
@@ -470,6 +458,20 @@ async function addColumnIfMissing(columnName, definition) {
   }
 }
 
+async function dropUserColumnIfExists(columnName) {
+  const { rows } = await pool.query(
+    `SELECT column_name
+     FROM information_schema.columns
+     WHERE table_schema = 'public' AND table_name = 'users' AND column_name = $1
+     LIMIT 1`,
+    [columnName],
+  );
+
+  if (rows.length) {
+    await pool.query(`ALTER TABLE users DROP COLUMN ${columnName}`);
+  }
+}
+
 async function initializeDatabase() {
   await pool.query('SELECT 1');
 
@@ -479,13 +481,7 @@ async function initializeDatabase() {
       name VARCHAR(120) NOT NULL,
       email VARCHAR(190) NOT NULL,
       password_hash VARCHAR(255) NOT NULL,
-      role VARCHAR(60) NOT NULL DEFAULT 'user',
-      title VARCHAR(120) NOT NULL DEFAULT '',
       company_name VARCHAR(160) NOT NULL DEFAULT '',
-      business_type VARCHAR(120) NOT NULL DEFAULT '',
-      phone VARCHAR(40) NOT NULL DEFAULT '',
-      gstin VARCHAR(32) NOT NULL DEFAULT '',
-      avatar_url VARCHAR(255) DEFAULT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       CONSTRAINT users_email_unique UNIQUE (email)
@@ -493,9 +489,10 @@ async function initializeDatabase() {
   `);
 
   await addColumnIfMissing('company_name', "company_name VARCHAR(160) NOT NULL DEFAULT ''");
-  await addColumnIfMissing('business_type', "business_type VARCHAR(120) NOT NULL DEFAULT ''");
-  await addColumnIfMissing('phone', "phone VARCHAR(40) NOT NULL DEFAULT ''");
-  await addColumnIfMissing('gstin', "gstin VARCHAR(32) NOT NULL DEFAULT ''");
+
+  for (const columnName of ['note', 'role', 'title', 'business_type', 'phone', 'gstin', 'avatar_url']) {
+    await dropUserColumnIfExists(columnName);
+  }
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS business_panel_data (
@@ -551,20 +548,14 @@ async function initializeDatabase() {
 
   await pool.query(
     `INSERT INTO users (
-       name, email, password_hash, role, title, company_name, business_type, phone, gstin, avatar_url
+       name, email, password_hash, company_name
      )
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+     VALUES ($1, $2, $3, $4)`,
     [
       process.env.AUTH_SEED_NAME || 'Charlene Reed',
       seedEmail,
       passwordHash,
-      process.env.AUTH_SEED_ROLE || 'designer',
-      process.env.AUTH_SEED_TITLE || 'Designer',
       process.env.AUTH_SEED_COMPANY_NAME || 'DashBank',
-      process.env.AUTH_SEED_BUSINESS_TYPE || 'SME',
-      process.env.AUTH_SEED_PHONE || '',
-      process.env.AUTH_SEED_GSTIN || '',
-      process.env.AUTH_SEED_AVATAR_URL || null,
     ],
   );
 
@@ -708,13 +699,7 @@ app.post('/api/auth/register', async (req, res, next) => {
     const name = normalizeUserInput(req.body?.name);
     const email = normalizeUserInput(req.body?.email).toLowerCase();
     const password = typeof req.body?.password === 'string' ? req.body.password : '';
-    const role = normalizeUserInput(req.body?.role) || 'owner';
-    const title = normalizeUserInput(req.body?.title) || 'Business Owner';
     const companyName = normalizeUserInput(req.body?.companyName);
-    const businessType = normalizeUserInput(req.body?.businessType);
-    const phone = normalizeUserInput(req.body?.phone);
-    const gstin = normalizeUserInput(req.body?.gstin).toUpperCase();
-    const avatarUrl = normalizeUserInput(req.body?.avatarUrl) || null;
 
     if (!name || !companyName || !email || !password) {
       res.status(400).json({ message: 'Name, company name, email, and password are required.' });
@@ -730,11 +715,11 @@ app.post('/api/auth/register', async (req, res, next) => {
 
     const { rows } = await pool.query(
       `INSERT INTO users (
-         name, email, password_hash, role, title, company_name, business_type, phone, gstin, avatar_url
+         name, email, password_hash, company_name
        )
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+       VALUES ($1, $2, $3, $4)
        RETURNING ${userSelect}`,
-      [name, email, passwordHash, role, title, companyName, businessType, phone, gstin, avatarUrl],
+      [name, email, passwordHash, companyName],
     );
 
     const user = rows[0];

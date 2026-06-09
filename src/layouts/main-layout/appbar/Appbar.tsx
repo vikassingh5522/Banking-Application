@@ -14,9 +14,6 @@ interface NavbarProps {
 const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
   const { user } = useAuth();
   const companyName = user?.companyName || 'Sunrise Traders Pvt. Ltd.';
-  const businessLabel = [user?.businessType || 'SME', user?.gstin ? `GSTIN ${user.gstin}` : '']
-    .filter(Boolean)
-    .join(' - ');
 
   return (
     <AppBar
@@ -65,7 +62,7 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
               {companyName}
             </Typography>
             <Typography color="primary.light" fontSize={11}>
-              {businessLabel}
+              Business account
             </Typography>
           </Box>
           <ProfileDropdown />

@@ -92,9 +92,6 @@ const ProfileDropdown = () => {
               <Typography variant="subtitle2" color="text.primary" fontWeight={600}>
                 {user?.name || 'Charlene Reed'}
               </Typography>
-              <Typography variant="caption" color="textSecondary">
-                {user?.title || 'Designer'}
-              </Typography>
               <Typography
                 variant="subtitle2"
                 color="textSecondary"

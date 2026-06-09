@@ -95,7 +95,10 @@ Use those credentials after replacing the password in your local `.env`.
 | `DB_CONNECTION_LIMIT`           | Postgres pool connection limit.                                                 |
 | `JWT_SECRET`                    | Secret used to sign auth cookies. Required.                                     |
 | `CORS_ORIGIN`                   | Allowed frontend origin for API requests.                                       |
-| `AUTH_SEED_*`                   | Optional default user seed values.                                              |
+| `AUTH_SEED_NAME`                | Optional default user name.                                                     |
+| `AUTH_SEED_EMAIL`               | Optional default user email.                                                    |
+| `AUTH_SEED_PASSWORD`            | Optional default user password.                                                 |
+| `AUTH_SEED_COMPANY_NAME`        | Optional default user company name.                                             |
 | `VITE_API_PROXY_TARGET`         | API target used by the Vite dev proxy.                                          |
 | `MISTRAL_API_KEY`               | Server-side API key for the AI Business Assistant. Do not expose it in React.   |
 | `MISTRAL_MODEL`                 | Mistral chat model used by the assistant.                                       |

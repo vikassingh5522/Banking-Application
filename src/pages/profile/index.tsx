@@ -13,11 +13,7 @@ const ProfilePage = () => {
           <CardContent>
             <Stack spacing={3}>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Avatar
-                  src={user?.avatarUrl || ProfileImage}
-                  alt={user?.name}
-                  sx={{ width: 88, height: 88 }}
-                />
+                <Avatar src={ProfileImage} alt={user?.name} sx={{ width: 88, height: 88 }} />
                 <Box>
                   <Typography variant="overline" color="text.secondary">
                     User Profile
@@ -26,7 +22,7 @@ const ProfilePage = () => {
                     {user?.name || 'Charlene Reed'}
                   </Typography>
                   <Typography variant="subtitle1" color="text.secondary">
-                    {user?.title || 'Designer'}
+                    {user?.companyName || 'DashBank'}
                   </Typography>
                 </Box>
               </Stack>
@@ -37,8 +33,10 @@ const ProfilePage = () => {
                   <Typography color="text.primary">{user?.email || 'info@dashbank.com'}</Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <IconifyIcon icon="lucide:shield-check" color="primary.main" />
-                  <Typography color="text.primary">Role: {user?.role || 'designer'}</Typography>
+                  <IconifyIcon icon="lucide:building-2" color="primary.main" />
+                  <Typography color="text.primary">
+                    {user?.companyName || 'Sunrise Traders Pvt. Ltd.'}
+                  </Typography>
                 </Stack>
               </Stack>
             </Stack>

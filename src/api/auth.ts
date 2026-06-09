@@ -2,13 +2,7 @@ export interface AuthUser {
   id: number;
   name: string;
   email: string;
-  role: string;
-  title: string;
   companyName?: string;
-  businessType?: string;
-  phone?: string;
-  gstin?: string;
-  avatarUrl?: string | null;
 }
 
 interface AuthResponse {
@@ -20,9 +14,6 @@ export interface RegisterPayload {
   companyName: string;
   email: string;
   password: string;
-  role?: string;
-  title?: string;
-  avatarUrl?: string;
 }
 
 async function request<T>(path: string, options: RequestInit = {}) {
