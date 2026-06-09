@@ -4,6 +4,14 @@ import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
+function normalizeBasePath(basePath = '/') {
+  if (!basePath || basePath === '/') {
+    return '/';
+  }
+
+  return `/${basePath.replace(/^\/|\/$/g, '')}/`;
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -36,7 +44,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
-    base: '/bankdash',
+    base: normalizeBasePath(env.VITE_BASE_PATH),
 
     //   preview: {
     //     port: 5000,

@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import Image from 'components/base/Image';
+import { publicAssetPath } from 'helpers/utils';
 import { Fragment } from 'react/jsx-runtime';
 
 interface LogoProps {
@@ -10,7 +11,7 @@ interface LogoProps {
 const Logo = ({ color = 'primary.darker', subtitle }: LogoProps) => {
   return (
     <Fragment>
-      <Image src="/bankdash/bankdash.svg" alt="Logo" sx={{ width: 36 }} />
+      <Image src={publicAssetPath('bankdash.svg')} alt="Logo" sx={{ width: 36 }} />
       <Stack gap={0}>
         <Typography variant="h2" color={color} lineHeight={1}>
           ConnectBank

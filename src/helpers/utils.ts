@@ -24,3 +24,7 @@ export const numberFormat = (number: number, notation: 'standard' | 'compact' = 
   new Intl.NumberFormat('en-US', {
     notation,
   }).format(number);
+
+export const publicAssetPath = (assetPath: string) => {
+  return `${import.meta.env.BASE_URL}${assetPath.replace(/^\//, '')}`;
+};

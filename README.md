@@ -63,7 +63,7 @@ npm run dev:client
 Open the app at:
 
 ```text
-http://localhost:3000/bankdash
+http://localhost:3000
 ```
 
 ## Authentication
@@ -100,6 +100,7 @@ Use those credentials after replacing the password in your local `.env`.
 | `AUTH_SEED_PASSWORD`            | Optional default user password.                                                 |
 | `AUTH_SEED_COMPANY_NAME`        | Optional default user company name.                                             |
 | `VITE_API_PROXY_TARGET`         | API target used by the Vite dev proxy.                                          |
+| `VITE_BASE_PATH`                | Optional frontend base path. Use `/` for Vercel root deploys.                  |
 | `MISTRAL_API_KEY`               | Server-side API key for the AI Business Assistant. Do not expose it in React.   |
 | `MISTRAL_MODEL`                 | Mistral chat model used by the assistant.                                       |
 
@@ -134,25 +135,25 @@ npx skills add supabase/agent-skills
 
 ## Routes
 
-The app is served under the `/bankdash` base path.
+The app is served from the domain root by default.
 
-- `/bankdash/dashboard`
-- `/bankdash/accounts`
-- `/bankdash/payments`
-- `/bankdash/collections`
-- `/bankdash/accounting`
-- `/bankdash/gst-tax`
-- `/bankdash/invoicing`
-- `/bankdash/lending`
-- `/bankdash/trade-supply-chain`
-- `/bankdash/payroll`
-- `/bankdash/profile`
-- `/bankdash/ai-assistant`
-- `/bankdash/settings`
-- `/bankdash/authentication/login`
-- `/bankdash/authentication/sign-up`
-- `/bankdash/authentication/forget-password`
-- `/bankdash/authentication/reset-password`
+- `/dashboard`
+- `/accounts`
+- `/payments`
+- `/collections`
+- `/accounting`
+- `/gst-tax`
+- `/invoicing`
+- `/lending`
+- `/trade-supply-chain`
+- `/payroll`
+- `/profile`
+- `/ai-assistant`
+- `/settings`
+- `/authentication/login`
+- `/authentication/sign-up`
+- `/authentication/forget-password`
+- `/authentication/reset-password`
 
 ## API Endpoints
 
@@ -170,7 +171,7 @@ Build the frontend:
 npm run build
 ```
 
-The Express server serves the built frontend from `dist` at `/bankdash`.
+The Express server serves the built frontend from `dist`.
 
 ```bash
 npm run server

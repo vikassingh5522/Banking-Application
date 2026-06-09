@@ -1,6 +1,7 @@
 import { AppBar, Badge, Box, IconButton, Link, Stack, Toolbar, Typography } from '@mui/material';
 import IconifyIcon from 'components/base/IconifyIcon';
 import Image from 'components/base/Image';
+import { publicAssetPath } from 'helpers/utils';
 import ProfileDropdown from 'layouts/main-layout/appbar/ProfileDropdown';
 import SearchInput from 'layouts/main-layout/appbar/SearchInput';
 import SettingsDropdown from 'layouts/main-layout/appbar/SettingsDropdown';
@@ -34,7 +35,7 @@ const MainNavbar = ({ onDrawerToggle }: NavbarProps) => {
           sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}
         >
           <Link component={RouterLink} to="/dashboard" sx={{ display: 'flex', p: 0.5 }}>
-            <Image src="/bankdash/bankdash.svg" alt="Logo" sx={{ width: 25 }} />
+            <Image src={publicAssetPath('bankdash.svg')} alt="Logo" sx={{ width: 25 }} />
           </Link>
           <IconButton onClick={onDrawerToggle} sx={{ display: { md: 'none' } }}>
             <IconifyIcon icon="mingcute:menu-line" color="primary.darker" width={25} />

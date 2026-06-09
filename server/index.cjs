@@ -774,7 +774,14 @@ app.post('/api/auth/logout', (_req, res) => {
   res.json({ ok: true });
 });
 
-app.use('/bankdash', express.static(path.join(__dirname, '..', 'dist')));
+const distPath = path.join(__dirname, '..', 'dist');
+
+app.use(express.static(distPath));
+app.use('/bankdash', express.static(distPath));
+
+app.get(/^\/(?!api\/).*/, (_req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
 
 app.use((error, _req, res, _next) => {
   console.error(error);

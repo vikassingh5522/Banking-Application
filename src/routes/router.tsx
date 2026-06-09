@@ -187,8 +187,11 @@ export const routes = [
   },
 ];
 
+const routerBasename =
+  import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const router = createBrowserRouter(routes, {
-  basename: '/bankdash',
+  basename: routerBasename,
 });
 
 export default router;
