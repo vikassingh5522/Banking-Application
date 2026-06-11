@@ -76,6 +76,7 @@ const LoginForm = () => {
             name="email"
             label="Email address"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             sx={interactiveFieldSx}
@@ -89,6 +90,7 @@ const LoginForm = () => {
             name="password"
             label="Password"
             type={showPassword ? 'text' : 'password'}
+            autoComplete="current-password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             sx={interactiveFieldSx}

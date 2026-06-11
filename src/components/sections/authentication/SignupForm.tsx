@@ -87,6 +87,7 @@ const SignupForm = () => {
             size={upSM ? 'medium' : 'small'}
             name="name"
             label="Full name"
+            autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             sx={interactiveFieldSx}
@@ -99,6 +100,7 @@ const SignupForm = () => {
             size={upSM ? 'medium' : 'small'}
             name="companyName"
             label="Company name"
+            autoComplete="organization"
             value={companyName}
             onChange={(event) => setCompanyName(event.target.value)}
             sx={interactiveFieldSx}
@@ -112,6 +114,7 @@ const SignupForm = () => {
             name="email"
             label="Email address"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             sx={interactiveFieldSx}
@@ -125,6 +128,7 @@ const SignupForm = () => {
             name="password"
             label="Password"
             type={showPassword ? 'text' : 'password'}
+            autoComplete="new-password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             inputProps={{ minLength: 8 }}
@@ -148,6 +152,7 @@ const SignupForm = () => {
             name="confirmPassword"
             label="Confirm Password"
             type={showConfirmPassword ? 'text' : 'password'}
+            autoComplete="new-password"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             inputProps={{ minLength: 8 }}
